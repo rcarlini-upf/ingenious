@@ -15,6 +15,7 @@ from text import text_to_sequence
 from melgan.model.generator import Generator
 from melgan.utils.hparams import load_hparam
 
+
 # Override warn function in warnings to mute it
 def warn(*args, **kwargs):
     pass
@@ -105,7 +106,6 @@ class T2SPipeline:
         log.info('Time elapsed in transforming mel to wav has been {} seconds.'.format(elapsed_melgan))
 
         return audio
-
 
     def process(self, text, output_destination, scores=[0.58, 0.12, 0.3], device='cpu'):
 

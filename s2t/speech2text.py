@@ -1,15 +1,17 @@
-from flask import Flask
-import argparse
 import os
-import ntpath
+import argparse
+
 import sox
-from shutil import copyfile, rmtree
+
+from flask import Flask
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--audio_path', default='./audio_A.wav', type=str, help='path to audio file')
 args = parser.parse_args()
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def speech2text():
@@ -43,6 +45,7 @@ def speech2text():
     with open(container_output_path + '/' + container_hyp_name, 'r', encoding="utf-8") as f:
         hypothesis = f.readlines()[0].split('(')[0]
     return hypothesis
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
