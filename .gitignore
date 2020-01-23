@@ -1,0 +1,12 @@
+.idea
+.DS_Store
+
+*.wav
+
+*.zip
+*.pt
+*.model
+
+**/models/
+**/results/
+**/lm/
