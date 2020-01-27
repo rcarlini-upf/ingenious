@@ -3,7 +3,7 @@ import logging as log
 import numpy as np
 
 import torch
-from scipy.io.wavfile import write
+from scipy.io import wavfile
 
 import sys
 sys.path.append('/text2speech_folder')  # folder where GST_Tacotron2 and MelGAN projects are located
@@ -115,4 +115,4 @@ class T2SPipeline:
 
         audio = self._mel2wav(mel_sequence)
 
-        write(output_destination, 22050, audio)
+        wavfile.write(output_destination, 22050, audio)

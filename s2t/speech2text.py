@@ -16,13 +16,17 @@ app = Flask(__name__)
 @app.route("/")
 def speech2text():
     audio_path = args.audio_path
+
     container_data_path = '/ASR/data/'
     sample_id = '000000000'
     list_name = 'test.lst'
+
     temporal_audio_name = sample_id + '.wav'
+
     container_audio_path = container_data_path + temporal_audio_name
+
     audio_list_path = container_data_path + list_name
-    container_output_path = '/ASR/results/20191126_1207'
+
     container_hyp_name = 'data#test.lst.hyp'
 
     with open(audio_list_path, 'w') as audio_list:
@@ -42,6 +46,7 @@ def speech2text():
     decoding_command = 'root/wav2letter/build/Decoder --flagsfile ASR/conf/decode.cfg'
     os.system(decoding_command)
 
+    container_output_path = '/ASR/results/20191126_1207'
     with open(container_output_path + '/' + container_hyp_name, 'r', encoding="utf-8") as f:
         hypothesis = f.readlines()[0].split('(')[0]
     return hypothesis
