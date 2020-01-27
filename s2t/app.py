@@ -50,9 +50,9 @@ def speech2text():
 
             with tempfile.NamedTemporaryFile() as fd:
                 file.save(fd)
-                pipeline.process(fd.name)
+                result = pipeline.process(fd.name)
 
-            return redirect(url_for('uploaded_file', filename=filename))
+            return result
 
     return '''
     <!doctype html>
