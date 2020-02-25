@@ -33,21 +33,22 @@ def speech2text():
             flash('No selected file')
             return redirect(request.url)
 
-        audio_path = args.audio_path
         container_data_path = '/ASR/data/'
         sample_id = '000000000'
         list_name = 'test.lst'
         temporal_audio_name = sample_id + '.wav'
         container_audio_path = container_data_path + temporal_audio_name
         audio_list_path = container_data_path + list_name
-        container_output_path = '/ASR/results/20191126_1207'
+        container_output_path = '/ASR/results'
         container_hyp_name = 'data#test.lst.hyp'
 
         if file and allowed_file(file.filename):
             file.save(container_audio_path)
 
+        if not os.path.exists(container_output_path):
+            os.makedirs(container_output_path)
+
         with open(audio_list_path, 'w') as audio_list:
-            #audio_length = str(sox.file_info.duration(audio_path))
             audio_length = str(sox.file_info.duration(container_audio_path))
             transcript = '<no_transcript>'
 
@@ -61,7 +62,7 @@ def speech2text():
         decoding_command = 'root/wav2letter/build/Decoder --flagsfile ASR/conf/decode.cfg'
         os.system(decoding_command)
 
-        with open(container_output_path + '/' + container_hyp_name, 'r', encoding="utf-8") as f:
+        with open(os.path.join(container_output_path, container_hyp_name), 'r', encoding="utf-8") as f:
             hypothesis = f.readlines()[0].split('(')[0]
         return hypothesis
 
