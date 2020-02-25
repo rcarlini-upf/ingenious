@@ -14,6 +14,8 @@ RUN pip install -r text2speech_folder/requirements.txt
 
 RUN pip install flask
 
+ADD t2s_pipeline.py /t2s_pipeline.py
+
 ADD app.py /app.py
 
 # Make port 80 available to the world outside this container

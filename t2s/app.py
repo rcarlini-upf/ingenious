@@ -1,9 +1,9 @@
-from io import FileIO
+from io import BytesIO
 import socket
 
 from flask import Flask, request, make_response
 
-import t2s_pipeline as pl
+import t2s_pipeline as pl 
 
 app = Flask(__name__)
 
@@ -25,8 +25,7 @@ def text2speech():
     text = request.args.get('text')
     if text:
         # scores=[0.58, 0.12, 0.3]
-
-        with FileIO() as output:
+        with BytesIO() as output:
             pipeline.process(text, output)
 
             response = make_response(output.getvalue())

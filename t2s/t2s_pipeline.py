@@ -57,13 +57,10 @@ class T2SPipeline:
     def __init_vocoder(self, vocoder_model_path):
 
         # load pre trained MelGAN model for mel2audio:
-
         temp_model = torch.load(vocoder_model_path, map_location='cpu')
-        state_dict = temp_model['state_dict']
 
-        # hp_melgan = load_hparam("melgan/config/default.yaml")
         model = Generator(80)  # Number of mel channels
-        model.load_state_dict(state_dict)
+        model.load_state_dict(temp_model['model_g'])
         model.eval(inference=False)
 
         return model
