@@ -5,10 +5,12 @@ FROM wav2letter/wav2letter:cpu-latest
 #WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-ADD . /
+ADD requirements.txt /requirements.txt
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+ADD . /
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
