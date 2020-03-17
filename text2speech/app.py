@@ -38,7 +38,7 @@ def text2speech():
 
 if __name__ == "__main__":
 
-    tacotron_model_path = "models/checkpoint_78000"
+    tacotron_model_path = "models/checkpoint_7800.model"
     vocoder_model_path = "models/nvidia_tacotron2_LJ11_epoch6400.pt"
 
     config = pl.T2SPipelineConfiguration()

@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>Ingenious integration service</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <h1>Ingenious integration service</h1>
+
+    <h2>Input text</h2>
+    <form action="/process_text" method="post">
+        <input type="text" name="text">
+        <input type="submit" value="Submit">
+    </form>  
+
+    <h2>Upload audio file</h2>
+    <form action="/process_audio" method="post" enctype="multipart/form-data">
+      <input type="file" name="audio">
+      <input type="submit" value="Upload">
+    </form>
+
+</body>
+</html>

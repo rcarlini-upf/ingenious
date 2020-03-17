@@ -1,9 +1,11 @@
 .idea
+.vscode/
 .DS_Store
 venv/
 
-*.wav
+**/__pycache__/
 
+*.wav
 *.zip
 *.pt
 *.model

@@ -1,0 +1,30 @@
+version: '3.0'
+services:
+
+    integration:
+        build: integration/
+        command: /start-reload.sh
+        volumes:
+            - ./integration/app:/app
+            
+        ports: 
+            - "4100:80"
+        depends_on:
+            - speech2text
+            - text2speech
+            
+    speech2text:
+        build: speech2text/
+        ports:
+            - "4200:80"
+
+    text2speech:
+        build: text2speech/
+        ports:
+            - "4300:80"
+        volumes:
+            - ./text2speech/models:/models
+    
+    # translation:
+
+
