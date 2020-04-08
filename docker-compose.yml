@@ -1,14 +1,16 @@
-version: '3.0'
+version: '3.2'
 services:
 
     integration:
         build: integration/
-        
-        ports: 
-            - "4100:80"
         depends_on:
             - speech2text
             - text2speech
+        
+        environment: 
+            -TRANSLATION_URL: http://taln.upf.edu/mmt-en_es/translate        
+        ports: 
+            - "4100:80"
             
     speech2text:
         build: speech2text/
@@ -17,11 +19,20 @@ services:
 
     text2speech:
         build: text2speech/
-        ports:
-            - "4300:80"
         volumes:
             - ./text2speech/models:/models
+        ports:
+            - "4300:80"
     
-    # translation:
+    mmt-es_en:
+        image: maven-taln.upf.edu/mmt-es_en:var3
+        ports:
+            - "4400:80"
+        deploy:
+            replicas: 0
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 2GB
 
 

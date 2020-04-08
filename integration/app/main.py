@@ -5,6 +5,7 @@ from starlette.responses import StreamingResponse
 from fastapi import FastAPI, Request, Form, File, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.logger import logger
 
 app = FastAPI()
 
@@ -30,5 +31,18 @@ async def process_audio(audio: UploadFile = File(...)):
 
     file_data = {'file': (audio.filename, audio.file, audio.content_type)}
     req = requests.post("http://speech2text/", files=file_data)
-    
-    return {"text": req.text}
+
+    response =  {"text": req.text}
+    logger.info(response)
+    return response
+
+
+@app.post("/translate")
+async def translate(text: str, source_language: str, target_language: str):
+
+    return {"error": "Not yet implemented!"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

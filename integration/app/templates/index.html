@@ -1,22 +1,65 @@
+<!doctype html>
 <html>
+
 <head>
-    <title>Ingenious integration service</title>
-    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Ingenious integration service</title>
+
 </head>
+
 <body>
+  <div class="container">
     <h1>Ingenious integration service</h1>
+    <div class="row ml-1 mt-3">
+      <div class="col-sm">
+        <h2>Record audio</h2>
+        <!-- https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Recording_a_media_element -->
 
-    <h2>Input text</h2>
-    <form action="/process_text" method="post">
-        <input type="text" name="text">
-        <input type="submit" value="Submit">
-    </form>  
+        <button id="startButton" class="btn btn-primary">Start Recording</button>
+        <button id="stopButton" class="btn btn-primary">Stop Recording</button>
+      </div>
+    </div>
+    <div class="row ml-1 mt-3">
+      <div class="col-sm">
+        <h2>Recording</h2>
+        <audio id="recording" width="160" height="10" controls></audio>
+      </div>
+    </div>
+    <div class="row ml-1">
+      <div class="col-sm">
+        <button id="downloadButton" class="btn btn-primary">Download</button>
+        <button id="sendButton" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+    <div class="row mt-3 ml-1">
+      <div class="col-sm">
+        <div class="bottom">
+          <pre id="log"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <h2>Upload audio file</h2>
-    <form action="/process_audio" method="post" enctype="multipart/form-data">
-      <input type="file" name="audio">
-      <input type="submit" value="Upload">
-    </form>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 
+  <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+
+  <script type="text/javascript" src="{{ url_for('static', path='/scripts.js') }}"></script>
 </body>
+
 </html>

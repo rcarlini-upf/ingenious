@@ -1,30 +1,43 @@
-version: '3.0'
+version: '3.2'
 services:
 
     integration:
         build: integration/
-        command: /start-reload.sh
-        volumes:
-            - ./integration/app:/app
-            
-        ports: 
-            - "4100:80"
         depends_on:
             - speech2text
             - text2speech
+
+        command: /start-reload.sh
+        volumes:
+            - ./integration/app:/app
+
+        environment: 
+            -TRANSLATION_MAP: "{\"en\": {\"es\": \"http://taln.upf.edu/mmt-en_es/translate\"}}"
+        ports: 
+            - "4100:80"
             
     speech2text:
         build: speech2text/
+        volumes:
+            - ./speech2text/ASR:/ASR
         ports:
             - "4200:80"
 
     text2speech:
         build: text2speech/
-        ports:
-            - "4300:80"
         volumes:
             - ./text2speech/models:/models
-    
-    # translation:
+        ports:
+            - "4300:80"
 
+    mmt-es_en:
+        image: maven-taln.upf.edu/mmt-es_en:var3
+        ports:
+            - "4400:80"
+        deploy:
+            replicas: 0
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 2GB
 
