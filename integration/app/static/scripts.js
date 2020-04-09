@@ -9,7 +9,7 @@ window.addEventListener('load', (event) => {
   //Recorder.js object 
   var input;
 
-  var formData;
+  var recordedBlob;
 
   //MediaStreamAudioSourceNode we'll be recording 
   // shim for AudioContext when it's not avb. 
@@ -19,14 +19,30 @@ window.addEventListener('load', (event) => {
   //new audio context to help us record 
   var startButton = document.getElementById("startButton");
   var stopButton = document.getElementById("stopButton");
+  var recordPlayer = document.getElementById("recordPlayer");
+
   var sendButton = document.getElementById("sendButton");
-  var audioPlayer = document.getElementById("recording");
+  var downloadButton = document.getElementById("downloadButton");
+
+  var translateInput = document.getElementById("translateInput");
+  var translateButton = document.getElementById("translateButton");
+
+  var synthesizeInput = document.getElementById("synthesizeInput");
+  var synthesizeButton = document.getElementById("synthesizeButton");
+  var synthesizedPlayer = document.getElementById("synthesizedPlayer");
+
+
   let logElement = document.getElementById("log");
 
   //add events to those 3 buttons 
   startButton.addEventListener("click", startRecording);
   stopButton.addEventListener("click", stopRecording);
+
   sendButton.addEventListener("click", postWav);
+
+  translateButton.addEventListener("click", postTranslate);
+
+  synthesizeButton.addEventListener("click", postSynthesis);
 
   function startRecording() {
 
@@ -81,12 +97,10 @@ window.addEventListener('load', (event) => {
     gumStream.getAudioTracks()[0].stop();
 
     rec.exportWAV(blob => {
-      audioPlayer.src = URL.createObjectURL(blob);
-      downloadButton.href = audioPlayer.src;
+      recordedBlob = blob;
+      recordPlayer.src = URL.createObjectURL(blob);
+      downloadButton.href = recordPlayer.src;
       downloadButton.download = "recorded.wav";
-
-      formData = new FormData();
-      formData.append('audio', blob, "recorded.wav");
     });
   }
 
@@ -96,6 +110,9 @@ window.addEventListener('load', (event) => {
 
   function postWav() {
 
+    let formData = new FormData();
+    formData.append('audio', recordedBlob, "recorded.wav");
+
     $.ajax({
       type: 'POST',
       url: '/process_audio',
@@ -103,10 +120,52 @@ window.addEventListener('load', (event) => {
       processData: false,
       contentType: false
     }).done(function (data) {
-      console.log(data);
+      console.log("Speech-to-text response received!");
       log("Speech-to-text output: " + data.text);
+      translateInput.value = data.text;
     });
+  }
 
-  };
+  function postTranslate() {
+
+    let formData = new FormData();
+    formData.append("source_language", "en");
+    formData.append("target_language", "es");
+    formData.append("text", translateInput.value);
+
+    $.ajax({
+      type: 'POST',
+      url: '/translate',
+      data: formData,
+      processData: false,
+      contentType: false
+    }).done(function (data) {
+      console.log("Translation response received!");
+      log("Translation output: " + data.text);
+      synthesizeInput.value = data.text;
+    });
+  }
+
+  function postSynthesis() {
+
+    let formData = new FormData();
+    formData.append("text", synthesizeInput.value);
+
+    $.ajax({
+      type: 'POST',
+      url: '/process_text',
+      cache:false,
+      xhrFields:{
+          responseType: 'blob'
+      },
+      data: formData,
+      processData: false,
+      contentType: false
+    }).done(function (data) {
+      console.log("Synthesis response received!");
+      let url = window.URL || window.webkitURL;
+      synthesizedPlayer.src = url.createObjectURL(data);
+    });
+  }
 
 });

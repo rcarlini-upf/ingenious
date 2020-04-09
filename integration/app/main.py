@@ -38,9 +38,16 @@ async def process_audio(audio: UploadFile = File(...)):
 
 
 @app.post("/translate")
-async def translate(text: str, source_language: str, target_language: str):
+async def translate(text: str = Form(...), source_language: str = Form(...), target_language: str = Form(...)):
+    data = {"source": source_language, "target": target_language, "q": text}
+    req = requests.get("http://taln.upf.edu/mmt-en_es/translate", params=data)
 
-    return {"error": "Not yet implemented!"}
+    json_response = req.json()
+    text = json_response['data']['translation']
+    
+    response =  {"text": text}
+    logger.info(response)
+    return response
 
 
 if __name__ == "__main__":
