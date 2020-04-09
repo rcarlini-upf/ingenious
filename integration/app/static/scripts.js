@@ -129,8 +129,8 @@ window.addEventListener('load', (event) => {
   function postTranslate() {
 
     let formData = new FormData();
-    formData.append("source_language", "en");
-    formData.append("target_language", "es");
+    formData.append("source_language", "es");
+    formData.append("target_language", "en");
     formData.append("text", translateInput.value);
 
     $.ajax({

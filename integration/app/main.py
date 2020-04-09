@@ -40,7 +40,7 @@ async def process_audio(audio: UploadFile = File(...)):
 @app.post("/translate")
 async def translate(text: str = Form(...), source_language: str = Form(...), target_language: str = Form(...)):
     data = {"source": source_language, "target": target_language, "q": text}
-    req = requests.get("http://taln.upf.edu/mmt-en_es/translate", params=data)
+    req = requests.get("http://taln.upf.edu/mmt-es_en/translate", params=data)
 
     json_response = req.json()
     text = json_response['data']['translation']
