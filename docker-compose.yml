@@ -8,12 +8,14 @@ services:
             - text2speech
         
         environment: 
-            -TRANSLATION_URL: http://taln.upf.edu/mmt-en_es/translate        
+            -TRANSLATION_MAP: "{\"en\": {\"es\": \"http://taln.upf.edu/mmt-en_es/translate\"}}"
         ports: 
             - "4100:80"
             
     speech2text:
         build: speech2text/
+        volumes:
+            - ./speech2text/ASR:/ASR
         ports:
             - "4200:80"
 
