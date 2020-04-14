@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM wav2letter/wav2letter:cpu-latest
+FROM wav2letter/wav2letter:cpu-0142d39
 
 # Set the working directory to /app
 #WORKDIR /app
