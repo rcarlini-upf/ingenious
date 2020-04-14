@@ -8,7 +8,7 @@ services:
             - text2speech
         
         environment: 
-            -TRANSLATION_MAP: "{\"en\": {\"es\": \"http://taln.upf.edu/mmt-en_es/translate\"}}"
+            -TRANSLATION_MAP: "{\"es\": {\"en\": \"http://taln.upf.edu/mmt-es_en/translate\"}}"
         ports: 
             - "4100:80"
             
